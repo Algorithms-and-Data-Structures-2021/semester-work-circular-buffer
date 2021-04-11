@@ -16,7 +16,7 @@ namespace itis {
 
   // Пример: объявление структуры с полями и методами
   template<class T>
-  class circular_buffer {
+  struct circular_buffer {
    private:
     size_t size_{0};
     size_t capacity_{0};
