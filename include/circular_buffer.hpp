@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <optional>
 #include <stdexcept>  // logic_error
+#include <cassert> // assert
 
 using std::size_t;
 // Заголовочный файл с объявлением структуры данных
@@ -146,6 +147,26 @@ namespace itis {
 
     size_t capacity() const {
       return capacity_;
+    }
+
+    void Resize(size_t new_capacity) {
+      assert(new_capacity > capacity_);
+
+      T *new_data = new T[new_capacity];
+
+      if (head_ <= tail_) {
+        std::copy(data_ + head_, data_ + tail_ + 1, new_data);
+      } else {
+        std::copy(data_ + head_, data_ + capacity_, new_data);
+        std::copy(data_, data_ + tail_ + 1, new_data + capacity_ - head_);
+      }
+      if (size_ > 0) {
+        head_ = 0;
+        tail_ = size_ - 1;
+      }
+      capacity_ = new_capacity;
+      delete[] data_;
+      data_ = new_data;
     }
 
     void Clear() {
