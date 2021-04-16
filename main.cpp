@@ -9,6 +9,9 @@ int main() {
   for (int num = 1; num < 16; num++) {
     buf.EnqueueBack(num);
   }
+  buf.Resize(10);
+  int num = 99;
+  buf.EnqueueBack(num); num = 11; buf.EnqueueFront(num);
   cout << buf.getFront().value() << ' ' << buf.getBack().value() << endl;
   return 0;
 }
