@@ -15,7 +15,32 @@ using namespace itis;
 static constexpr auto kDatasetPath = string_view{PROJECT_DATASET_DIR};
 static constexpr auto kProjectPath = string_view{PROJECT_SOURCE_DIR};
 
+const int kMinSamples = 100;
+const int kMaxSamples = 5000000;
+
+
 int main(int argc, char **argv) {
+
+  // работа с набором данных
+  const auto path = string(kDatasetPath);
+  cout << "Path to the 'dataset/' folder: " << path << endl;
+
+
+  for (int file_index = kMinSamples; file_index <= kMaxSamples; file_index = (to_string(file_index)[0] == '1') ? file_index*5 : file_index*2) {
+    string file = to_string(file_index) + ".csv";
+
+    for (int folder_idx = 1; folder_idx < 11; folder_idx++){
+      string folder;
+      if (folder_idx < 10)  {
+        folder = '0' + to_string(folder_idx);
+      } else {
+        folder = to_string(folder_idx);
+      }
+
+      cout << '.';
+    }
+  }
+
 
   // Tip 1: входные аргументы позволяют более гибко контролировать параметры вашей программы
 
@@ -36,9 +61,6 @@ int main(int argc, char **argv) {
   ss >> number;  // number = 1
   ss >> number;  // number = 2
 
-  // работа с набором данных
-  const auto path = string(kDatasetPath);
-  cout << "Path to the 'dataset/' folder: " << path << endl;
 
   auto input_file = ifstream(path + "/dataset-example.csv");
 
