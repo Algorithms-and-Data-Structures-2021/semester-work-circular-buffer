@@ -24,7 +24,7 @@ const int kBigBufferCoeff = 5;
 const int kSmallBufferCoeff = 2;
 
 
-long test_enqueue_back(string path_to_input_file, itis::circular_buffer<int> buff) {
+long test_enqueue_back(string path_to_input_file, itis::circular_buffer<int> &buff) {
   string line;
   auto input_file = ifstream(path_to_input_file);
   auto time_point_before = chrono::high_resolution_clock::now();
@@ -40,7 +40,7 @@ long test_enqueue_back(string path_to_input_file, itis::circular_buffer<int> buf
 }
 
 
-long test_enqueue_front(string path_to_input_file, itis::circular_buffer<int> buff) {
+long test_enqueue_front(string path_to_input_file, itis::circular_buffer<int> &buff) {
   string line;
   auto input_file = ifstream(path_to_input_file);
   auto time_point_before = chrono::high_resolution_clock::now();
@@ -56,7 +56,7 @@ long test_enqueue_front(string path_to_input_file, itis::circular_buffer<int> bu
 }
 
 
-long test_dequeue_back(itis::circular_buffer<int> buff) {
+long test_dequeue_back(itis::circular_buffer<int> &buff) {
   auto time_point_before = chrono::high_resolution_clock::now();
   while (!buff.isEmpty()) {
     buff.DequeueBack();
@@ -69,7 +69,7 @@ long test_dequeue_back(itis::circular_buffer<int> buff) {
 }
 
 
-long test_dequeue_front(itis::circular_buffer<int> buff) {
+long test_dequeue_front(itis::circular_buffer<int> &buff) {
   auto time_point_before = chrono::high_resolution_clock::now();
   while (!buff.isEmpty()) {
     buff.DequeueFront();
