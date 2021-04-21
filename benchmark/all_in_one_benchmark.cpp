@@ -15,7 +15,7 @@ using namespace itis;
 static constexpr auto kDatasetPath = string_view{PROJECT_DATASET_DIR};
 static constexpr auto kProjectPath = string_view{PROJECT_SOURCE_DIR};
 
-const string kEnqueueDatasetPath = "/Enqueue/int/02";
+const string kEnqueueDatasetPath = "/Enqueue/int";
 
 const int kMinSamples = 100;
 const int kMaxSamples = 5000000;
@@ -24,13 +24,13 @@ const int kBigBufferCoeff = 5;
 const int kSmallBufferCoeff = 2;
 
 
-long test_enqueue_back(string &path_to_input_file, itis::circular_buffer<int> &buff) {
+long test_enqueue_back(string &path_to_input_file, itis::circular_buffer<int> &buff_) {
   string line;
   auto input_file = ifstream(path_to_input_file);
   auto time_point_before = chrono::high_resolution_clock::now();
   while (getline(input_file, line)) {
     int number = stoi(line);
-    buff.EnqueueBack(number);
+    buff_.EnqueueBack(number);
   }
   auto time_point_after = chrono::high_resolution_clock::now();
   auto time_diff = time_point_after - time_point_before;
@@ -40,13 +40,13 @@ long test_enqueue_back(string &path_to_input_file, itis::circular_buffer<int> &b
 }
 
 
-long test_enqueue_front(string &path_to_input_file, itis::circular_buffer<int> &buff) {
+long test_enqueue_front(string &path_to_input_file, itis::circular_buffer<int> &buff_) {
   string line;
   auto input_file = ifstream(path_to_input_file);
   auto time_point_before = chrono::high_resolution_clock::now();
   while (getline(input_file, line)) {
     int number = stoi(line);
-    buff.EnqueueFront(number);
+    buff_.EnqueueFront(number);
   }
   auto time_point_after = chrono::high_resolution_clock::now();
   auto time_diff = time_point_after - time_point_before;
@@ -56,10 +56,10 @@ long test_enqueue_front(string &path_to_input_file, itis::circular_buffer<int> &
 }
 
 
-long test_dequeue_back(itis::circular_buffer<int> &buff) {
+long test_dequeue_back(itis::circular_buffer<int> &buff_) {
   auto time_point_before = chrono::high_resolution_clock::now();
-  while (!buff.isEmpty()) {
-    buff.DequeueBack();
+  while (!(buff_.isEmpty())) {
+    buff_.DequeueBack();
   }
   auto time_point_after = chrono::high_resolution_clock::now();
   auto time_diff = time_point_after - time_point_before;
@@ -69,10 +69,10 @@ long test_dequeue_back(itis::circular_buffer<int> &buff) {
 }
 
 
-long test_dequeue_front(itis::circular_buffer<int> &buff) {
+long test_dequeue_front(itis::circular_buffer<int> &buff_) {
   auto time_point_before = chrono::high_resolution_clock::now();
-  while (!buff.isEmpty()) {
-    buff.DequeueFront();
+  while (!(buff_.isEmpty())) {
+    buff_.DequeueFront();
   }
   auto time_point_after = chrono::high_resolution_clock::now();
   auto time_diff = time_point_after - time_point_before;
@@ -86,7 +86,6 @@ int main(int argc, char **argv) {
 
   // работа с набором данных
   const auto path = string(kDatasetPath);
-  cout << "Path to the 'dataset/' folder: " << path << endl;
 
 
   for (int samples_num = kMinSamples; samples_num <= kMaxSamples;
@@ -96,30 +95,44 @@ int main(int argc, char **argv) {
     for (int folder_idx = 1; folder_idx < 11; folder_idx++){
       string folder;
       if (folder_idx < 10)  {
-        folder = '0' + to_string(folder_idx);
+        folder = "/0" + to_string(folder_idx);
       } else {
-        folder = to_string(folder_idx);
+        folder = "/" + to_string(folder_idx);
       }
 
       string path_to_file = path + kEnqueueDatasetPath + folder + file;
+
+//      cout << "Path to the file: " << path_to_file << endl;
       auto buff = itis::circular_buffer<int>(samples_num / kSmallBufferCoeff);
 
       long time_elapsed_ns_enqueue_back_small = test_enqueue_back(path_to_file, buff);
       long time_elapsed_ns_dequeue_back_small = test_dequeue_back(buff);
       long time_elapsed_ns_enqueue_front_small = test_enqueue_front(path_to_file, buff);
+      cout << "\n" << "buffer size:" << buff.size() << endl;
       long time_elapsed_ns_dequeue_front_small = test_dequeue_front(buff);
+
+
+      cout << time_elapsed_ns_enqueue_back_small << endl;
+      cout << time_elapsed_ns_enqueue_front_small << endl;
+      cout << time_elapsed_ns_dequeue_back_small << endl;
+      cout << time_elapsed_ns_dequeue_front_small << endl;
+
+      cout << "\n" << "buffer size:" << buff.size() << endl;
 
       buff.Resize(samples_num + kBigBufferCoeff);
 
       long time_elapsed_ns_enqueue_back_big = test_enqueue_back(path_to_file, buff);
       long time_elapsed_ns_dequeue_back_big = test_dequeue_back(buff);
       long time_elapsed_ns_enqueue_front_big = test_enqueue_front(path_to_file, buff);
+      cout << "\n" << "buffer size:" << buff.size() << endl;
       long time_elapsed_ns_dequeue_front_big = test_dequeue_front(buff);
 
-      cout << time_elapsed_ns_enqueue_back_small << "        " << time_elapsed_ns_enqueue_back_big << endl;
-      cout << time_elapsed_ns_enqueue_front_small << "        " << time_elapsed_ns_enqueue_front_big << endl;
-      cout << time_elapsed_ns_dequeue_back_small << "        " << time_elapsed_ns_dequeue_back_big << endl;
-      cout << time_elapsed_ns_dequeue_front_small << "        " << time_elapsed_ns_dequeue_front_big << endl;
+      cout << time_elapsed_ns_enqueue_back_big << endl;
+      cout << time_elapsed_ns_enqueue_front_big << endl;
+      cout << time_elapsed_ns_dequeue_back_big << endl;
+      cout << time_elapsed_ns_dequeue_front_big << endl;
+
+      cout << "\n" << "buffer size:" << buff.size() << endl;
       cout << "--------------------------------------------------" << endl;
 
     }
