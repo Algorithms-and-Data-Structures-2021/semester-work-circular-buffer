@@ -24,7 +24,7 @@ const int kBigBufferCoeff = 5;
 const int kSmallBufferCoeff = 2;
 
 
-long test_enqueue_back(string path_to_input_file, itis::circular_buffer<int> &buff) {
+long test_enqueue_back(string &path_to_input_file, itis::circular_buffer<int> &buff) {
   string line;
   auto input_file = ifstream(path_to_input_file);
   auto time_point_before = chrono::high_resolution_clock::now();
@@ -40,7 +40,7 @@ long test_enqueue_back(string path_to_input_file, itis::circular_buffer<int> &bu
 }
 
 
-long test_enqueue_front(string path_to_input_file, itis::circular_buffer<int> &buff) {
+long test_enqueue_front(string &path_to_input_file, itis::circular_buffer<int> &buff) {
   string line;
   auto input_file = ifstream(path_to_input_file);
   auto time_point_before = chrono::high_resolution_clock::now();
@@ -120,6 +120,7 @@ int main(int argc, char **argv) {
       cout << time_elapsed_ns_enqueue_front_small << "        " << time_elapsed_ns_enqueue_front_big << endl;
       cout << time_elapsed_ns_dequeue_back_small << "        " << time_elapsed_ns_dequeue_back_big << endl;
       cout << time_elapsed_ns_dequeue_front_small << "        " << time_elapsed_ns_dequeue_front_big << endl;
+      cout << "--------------------------------------------------" << endl;
 
     }
   }
