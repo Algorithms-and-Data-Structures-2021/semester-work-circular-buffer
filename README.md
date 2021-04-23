@@ -92,7 +92,7 @@ _Разрешается использовать собственный форм
 Генерация тестового набора данных в
 формате [comma-seperated values (CSV)](https://en.wikipedia.org/wiki/Comma-separated_values):
 
-```shell
+```bash
 # переход в папку генерации набора данных
 cd dataset
 
@@ -145,6 +145,16 @@ _Опишите, как запустить контрольные тесты, ч
 потребление памяти и пр.)._
 
 Для запуска контрольных тестов необходимо предварительно сгенерировать или скачать готовый набор тестовых данных.
+
+генерация данных:
+```bash
+
+# просто скопируйте этот код и вставьте в bash-консоль, например, в консоль clion
+# важно находиться в директории проекта т.е. в semester-work-circular-buffer
+
+cd dataset/; rm data -r; mkdir data; cd data/; mkdir Enqueue; cd Enqueue/; mkdir int; cd int/; for i in {01..10}; do mkdir $i; done; cd ../../../; for ((samples = 100; samples < 1000001; samples *= 10)); do for path_ in data/Enqueue/int/{01..10}/; do python generate_csv_dataset.py "$path_$samples.csv" --samples $samples; done; done; for ((samples = 500; samples < 5000001; samples *= 10)); do for path_ in data/Enqueue/int/{01..10}/; do python generate_csv_dataset.py "$path_$samples.csv" --samples $samples; done; done; cd ../;
+
+```
 
 **Примечание**. Во избежание "захламления" репозитория большим объёмом данных рекомендуется указать ссылку на архив с
 набором данных, который при необходимости можно скачать по ссылке. Наборы данных должны находиться в папке семестровой
