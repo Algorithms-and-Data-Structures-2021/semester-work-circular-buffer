@@ -1,9 +1,6 @@
 Circularr Buffer - Кольцевой Буфер на базе Array Deque
 [![CMake](https://github.com/Algorithms-and-Data-Structures-2021/semester-work-circular-buffer/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Algorithms-and-Data-Structures-2021/semester-work-circular-buffer/actions/workflows/cmake.yml)
 
-**_Измените status badge сверху для отображения статуса сборки вашего проекта._**
-
-`Actions > CMake > ... > Create status badge`
 
 ## Описание
 
