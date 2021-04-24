@@ -149,7 +149,7 @@ dataset/data/
 cd dataset/; rm data -r; mkdir data; cd data/; mkdir Enqueue; cd Enqueue/; mkdir int; cd int/; for i in {01..10}; do mkdir $i; done; cd ../../../; for ((samples = 100; samples < 1000001; samples *= 10)); do for path_ in data/Enqueue/int/{01..10}/; do python generate_csv_dataset.py "$path_$samples.csv" --samples $samples; done; done; for ((samples = 500; samples < 5000001; samples *= 10)); do for path_ in data/Enqueue/int/{01..10}/; do python generate_csv_dataset.py "$path_$samples.csv" --samples $samples; done; done; cd ../;
 
 # ОЧЕНЬ ВАЖНОЕ ЗАМЕЧАНИЕ:
-# В вышенаписанном коде есть знак доллара `$` по неизвестным мне причинам, если смотреть на файл README.md в Clion, 
+# В вышенаписанном коде есть знак доллара `$`. По неизвестным мне причинам, если смотреть на файл README.md в Clion, 
 # знак доллара может отображатся с бэк-слешом в начале `\$` проследите чтобы при копировании кода перед знаком доллара не было бэк-слеша
 
 ```
