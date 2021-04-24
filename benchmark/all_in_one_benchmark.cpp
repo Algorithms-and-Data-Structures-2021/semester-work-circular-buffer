@@ -86,7 +86,8 @@ int main(int argc, char **argv) {
 
   // работа с набором данных
   const auto path = string(kDatasetPath);
-
+  cout << "Номер запуска\tEnqueueBack\tEnqueueFront\tDequeueBack\tDequeueFront"
+          "\tEnqueueBack\tEnqueueFront\tDequeueBack\tDequeueFront\n";
 
   for (int samples_num = kMinSamples; samples_num <= kMaxSamples;
        samples_num = (to_string(samples_num)[0] == '1') ? samples_num *5 : samples_num *2) {
@@ -103,39 +104,34 @@ int main(int argc, char **argv) {
       string path_to_file = path + kEnqueueDatasetPath + folder + file;
 
 //      cout << "Path to the file: " << path_to_file << endl;
-      auto buff = itis::circular_buffer<int>(samples_num / kSmallBufferCoeff);
 
-      long time_elapsed_ns_enqueue_back_small = test_enqueue_back(path_to_file, buff);
-      long time_elapsed_ns_dequeue_back_small = test_dequeue_back(buff);
-      long time_elapsed_ns_enqueue_front_small = test_enqueue_front(path_to_file, buff);
-      cout << "\n" << "buffer size:" << buff.size() << endl;
-      long time_elapsed_ns_dequeue_front_small = test_dequeue_front(buff);
+      for (int i = 1; i < 11; i++) {
+        auto buff = itis::circular_buffer<int>(samples_num / kSmallBufferCoeff);
 
+        long time_elapsed_ns_enqueue_back_small = test_enqueue_back(path_to_file, buff);
+        long time_elapsed_ns_dequeue_back_small = test_dequeue_back(buff);
+        long time_elapsed_ns_enqueue_front_small = test_enqueue_front(path_to_file, buff);
+        long time_elapsed_ns_dequeue_front_small = test_dequeue_front(buff);
 
-      cout << time_elapsed_ns_enqueue_back_small << endl;
-      cout << time_elapsed_ns_enqueue_front_small << endl;
-      cout << time_elapsed_ns_dequeue_back_small << endl;
-      cout << time_elapsed_ns_dequeue_front_small << endl;
+        buff.Resize(samples_num + kBigBufferCoeff);
 
-      cout << "\n" << "buffer size:" << buff.size() << endl;
+        long time_elapsed_ns_enqueue_back_big = test_enqueue_back(path_to_file, buff);
+        long time_elapsed_ns_dequeue_back_big = test_dequeue_back(buff);
+        long time_elapsed_ns_enqueue_front_big = test_enqueue_front(path_to_file, buff);
+        long time_elapsed_ns_dequeue_front_big = test_dequeue_front(buff);
 
-      buff.Resize(samples_num + kBigBufferCoeff);
+        cout << i << "\t" << time_elapsed_ns_enqueue_back_small << "\t";
+        cout << time_elapsed_ns_enqueue_front_small << "\t";
+        cout << time_elapsed_ns_dequeue_back_small << "\t";
+        cout << time_elapsed_ns_dequeue_front_small << "\t";
 
-      long time_elapsed_ns_enqueue_back_big = test_enqueue_back(path_to_file, buff);
-      long time_elapsed_ns_dequeue_back_big = test_dequeue_back(buff);
-      long time_elapsed_ns_enqueue_front_big = test_enqueue_front(path_to_file, buff);
-      cout << "\n" << "buffer size:" << buff.size() << endl;
-      long time_elapsed_ns_dequeue_front_big = test_dequeue_front(buff);
-
-      cout << time_elapsed_ns_enqueue_back_big << endl;
-      cout << time_elapsed_ns_enqueue_front_big << endl;
-      cout << time_elapsed_ns_dequeue_back_big << endl;
-      cout << time_elapsed_ns_dequeue_front_big << endl;
-
-      cout << "\n" << "buffer size:" << buff.size() << endl;
-      cout << "--------------------------------------------------" << endl;
-
+        cout << time_elapsed_ns_enqueue_back_big << "\t";
+        cout << time_elapsed_ns_enqueue_front_big << "\t";
+        cout << time_elapsed_ns_dequeue_back_big << "\t";
+        cout << time_elapsed_ns_dequeue_front_big << "\n";
+      }
     }
+    cout << '\n';
   }
 //
 //  string input_file_ = path + "/Enqueue/int/02/" + "100.csv";
