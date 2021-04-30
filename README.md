@@ -132,8 +132,7 @@ dataset/data/
 
 # просто скопируйте этот код и вставьте в bash-консоль, например, в консоль clion
 # важно находиться в директории проекта т.е. в semester-work-circular-buffer
-
-cd dataset/; rm data -r; mkdir data; cd data/; mkdir Enqueue; cd Enqueue/; mkdir int; cd int/; for i in {01..10}; do mkdir $i; done; cd ../../../; for ((samples = 100; samples < 1000001; samples *= 10)); do for path_ in data/Enqueue/int/{01..10}/; do python generate_csv_dataset.py "$path_$samples.csv" --samples $samples; done; done; for ((samples = 500; samples < 5000001; samples *= 10)); do for path_ in data/Enqueue/int/{01..10}/; do python generate_csv_dataset.py "$path_$samples.csv" --samples $samples; done; done; cd ../;
+# Процесс может занять нкоторое время (возможно, несколько минут)
 
 cd dataset/
 rm data -r 
@@ -188,7 +187,10 @@ for %p in (00 01 02 03 04 05 06 07 08 09 10) do (
 python generate_csv_dataset.py "data/Enqueue/int/%p/%s.csv" --samples %s ))
 cd ../
 
-скопируйте  и вставьте этот скримпт в консоль Windows(cmd.exe)
+# скопируйте  и вставьте этот скримпт в консоль Windows(cmd.exe)
+# важно находиться в директории проекта т.е. в semester-work-circular-buffer
+# Процесс может занять нкоторое время (возможно, несколько минут)
+
 ```
 
 **Примечание**. Во избежание "захламления" репозитория большим объёмом данных рекомендуется указать ссылку на архив с
@@ -210,10 +212,10 @@ cd ../
 _Список использованных при реализации структуры данных источников._
 
 - Видео:
-  - https://www.youtube.com/watch?v=WJres9mgiAk&ab_channel=Jenny%27slecturesCS%2FITNET%26JRF
-  - https://www.youtube.com/watch?v=GbBrp6K7IvM&t=17s&ab_channel=eapbg
-  - https://www.youtube.com/watch?v=39HHWATPcwY&t=78s&ab_channel=JeffZhang
-  - https://www.youtube.com/watch?v=ZkL7YK0AnNU&t=554s&ab_channel=JeffZhang
+  - [Видео про реализацию двусторонней очереди через замкнутый массив](https://www.youtube.com/watch?v=WJres9mgiAk&ab_channel=Jenny%27slecturesCS%2FITNET%26JRF)
+  - [Видео про кольцевой буфер на основе односторонней очереди](https://www.youtube.com/watch?v=GbBrp6K7IvM&t=17s&ab_channel=eapbg)
+  - [Туториал по написанию буфера на основе односторонней очереди - часть 1](https://www.youtube.com/watch?v=39HHWATPcwY&t=78s&ab_channel=JeffZhang)
+  - [Туториал по написанию буфера на основе односторонней очереди - часть 2](https://www.youtube.com/watch?v=ZkL7YK0AnNU&t=554s&ab_channel=JeffZhang)
 - Статьи:
-  - https://www.wikiwand.com/en/Circular_buffer
-  - https://embeddedartistry.com/blog/2017/05/17/creating-a-circular-buffer-in-c-and-c/#:~:text=Circular%20buffers%20(also%20known%20as,added%2C%20the%20head%20pointer%20advances.
+  - [Циркулярный буфер - вики](https://www.wikiwand.com/en/Circular_buffer)
+  - [Туториал по реализации кольцевого буфера на основе односторонней очереди на Си и на Си++](https://embeddedartistry.com/blog/2017/05/17/creating-a-circular-buffer-in-c-and-c/#:~:text=Circular%20buffers%20(also%20known%20as,added%2C%20the%20head%20pointer%20advances.)
