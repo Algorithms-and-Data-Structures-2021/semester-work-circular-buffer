@@ -127,7 +127,7 @@ dataset/data/
 
 Для запуска контрольных тестов необходимо предварительно сгенерировать или скачать готовый набор тестовых данных.
 
-генерация данных:
+#### генерация данных (UNIX-подобные ОС):
 ```bash
 
 # просто скопируйте этот код и вставьте в bash-консоль, например, в консоль clion
@@ -135,10 +135,60 @@ dataset/data/
 
 cd dataset/; rm data -r; mkdir data; cd data/; mkdir Enqueue; cd Enqueue/; mkdir int; cd int/; for i in {01..10}; do mkdir $i; done; cd ../../../; for ((samples = 100; samples < 1000001; samples *= 10)); do for path_ in data/Enqueue/int/{01..10}/; do python generate_csv_dataset.py "$path_$samples.csv" --samples $samples; done; done; for ((samples = 500; samples < 5000001; samples *= 10)); do for path_ in data/Enqueue/int/{01..10}/; do python generate_csv_dataset.py "$path_$samples.csv" --samples $samples; done; done; cd ../;
 
+cd dataset/
+rm data -r 
+mkdir data 
+cd data/
+mkdir Enqueue 
+cd Enqueue/
+mkdir int
+cd int/
+for i in {01..10}
+do 
+mkdir $i
+done
+cd ../../../
+for ((samples = 100; samples < 1000001; samples *= 10))
+do 
+for path_ in data/Enqueue/int/{01..10}/
+do 
+python generate_csv_dataset.py "$path_$samples.csv" --samples $samples
+done
+done
+for ((samples = 500; samples < 5000001; samples *= 10))
+do 
+for path_ in data/Enqueue/int/{01..10}/
+do 
+python generate_csv_dataset.py "$path_$samples.csv" --samples $samples
+done
+done 
+cd ../
+
+
 # ОЧЕНЬ ВАЖНОЕ ЗАМЕЧАНИЕ:
 # В вышенаписанном коде есть знак доллара `$`. По неизвестным мне причинам, если смотреть на файл README.md в Clion, 
 # знак доллара может отображатся с бэк-слешом в начале `\$` проследите чтобы при копировании кода перед знаком доллара не было бэк-слеша
 
+```
+
+#### генерация данных (Windows)
+```shell
+cd dataset/
+rmdir /s/q data
+mkdir data
+cd data/
+mkdir Enqueue
+cd Enqueue/
+mkdir int
+cd int/
+for %i in (00 01 02 03 04 05 06 07 08 09 10) do ( mkdir %i )
+cd ../../../
+for %s in (100 500 1000 5000 10000 50000 100000 500000 1000000 5000000 ) do (
+for %p in (00 01 02 03 04 05 06 07 08 09 10) do (
+python generate_csv_dataset.py "data/Enqueue/int/%p/%s.csv" --samples %s ))
+cd ../
+
+скопируйте  и вставьте этот скримпт в консоль Windows(cmd.exe)
 ```
 
 **Примечание**. Во избежание "захламления" репозитория большим объёмом данных рекомендуется указать ссылку на архив с
